@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import Header from "./components/Header";
 import Layout from "./components/Layout";
+import ListsBoard from "./components/ListsBoard";
 
-interface AppTypes {
-  boardTypes: {
+export interface AppTypes {
+  list: AppTypes["singleList"][];
+
+  singleList: {
     title: string;
     todos: AppTypes["todo"][];
-  }[];
+  };
 
   todo: {
     title: string;
@@ -15,9 +18,13 @@ interface AppTypes {
 }
 
 const App: React.FC = () => {
-  const [boards, setBoards] = useState<AppTypes["boardTypes"]>([
+  const [lists, setLists] = useState<AppTypes["list"]>([
     {
       title: "First Board",
+      todos: [{ title: "first todo", description: "some description" }],
+    },
+    {
+      title: "Second Board",
       todos: [{ title: "first todo", description: "some description" }],
     },
   ]);
@@ -25,6 +32,7 @@ const App: React.FC = () => {
   return (
     <Layout>
       <Header />
+      <ListsBoard lists={lists} setLists={setLists} />
     </Layout>
   );
 };
