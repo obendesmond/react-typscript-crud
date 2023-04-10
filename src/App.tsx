@@ -1,12 +1,12 @@
-import React from "react"
+import React from "react";
+import Header from "./components/Header";
 
-const App:React.FC = () => {
+const App: React.FC = () => {
+  return (
+    <div>
+      <Header />
+    </div>
+  );
+};
 
-    return (
-        <div className="bg-pink-500 p-5 text-white">
-            <h1 >HELLO WORLD</h1>
-        </div>
-    )
-}
-
-export default App
+export default App;
