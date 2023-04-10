@@ -1,10 +1,10 @@
 import React from "react"
 
-const App = () => {
+const App:React.FC = () => {
 
     return (
-        <div>
-            <h1>HELLO WORLD</h1>
+        <div className="bg-pink-500 p-5 text-white">
+            <h1 >HELLO WORLD</h1>
         </div>
     )
 }
