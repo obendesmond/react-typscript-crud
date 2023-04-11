@@ -23,10 +23,10 @@ const ListsBoard: React.FC<BoardTypes["Iprops"]> = ({ lists, setLists }) => {
   };
 
   // function for switching editMode
-  const handleSwitchEditMode = (id: string): void => {
+  const handleSwitchEditMode = (id: string, value?: boolean): void => {
     const updatedList = lists.map(list => {
       if (list.id === id) {
-        list.editMode = !list.editMode;
+        list.editMode = value !== undefined ? value : !list.editMode;
       }
       return list;
     });
@@ -45,6 +45,7 @@ const ListsBoard: React.FC<BoardTypes["Iprops"]> = ({ lists, setLists }) => {
 
   // function for adding default todo to a list card
   const handleAddTodo = (id: string): void => {
+    handleSwitchEditMode(id, false);
     const defaultTodo: AppTypes["todo"] = {
       title: "Sample todo",
       description: "sample description",

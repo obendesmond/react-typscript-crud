@@ -24,10 +24,7 @@ const App: React.FC = () => {
   const defaultList = {
     id: uuid(),
     title: "Sample List Board Title",
-    todos: [
-      { title: "First thing", description: "Some description here" },
-      { title: "Second thing", description: "Some description here" },
-    ],
+    todos: [],
     editMode: true,
   };
   const [lists, setLists] = useState<AppTypes["list"]>([defaultList]);

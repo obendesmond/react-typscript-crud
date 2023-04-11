@@ -34,7 +34,7 @@ const SingleList: React.FC<SingleListTypes["IProps"]> = ({
 
   return (
     <div className="relative">
-      <div className="w-[400px] drop-shadow-md rounded-t-md overflow-hidden min-h-[150px] bg-[#d3f0f9]">
+      <div className="w-full md:w-[400px] drop-shadow-md rounded-md overflow-hidden min-h-[150px] bg-[#d3f0f9]">
         <div className="flex items-center justify-center gap-10 bg-gradient-to-tr from-myBlue to-myPink bg-opacity-70 p-3 text-white text-center">
           {/* bg-gradient-to-tr from-myBlue to-myPink | bg-blue-900 bg-opacity-70 */}
           {editMode ? (
@@ -46,7 +46,9 @@ const SingleList: React.FC<SingleListTypes["IProps"]> = ({
               placeholder="Enter list title"
             />
           ) : (
-            <p className="flex-1">{singleList.title}</p>
+            <p className="flex-1 text-left md:text-center">
+              {singleList.title}
+            </p>
           )}
           <div>
             <Icon
