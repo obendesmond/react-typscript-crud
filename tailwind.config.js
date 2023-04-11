@@ -8,8 +8,8 @@ module.exports = {
         myPink: "#BD365D",
       },
       backgroundImage: theme => ({
-        "hero-pattern":
-          "url('https://cdn.pixabay.com/photo/2013/10/25/20/46/mosaic-200864__340.jpg')",
+        pattern:
+          "url('https://i.pinimg.com/736x/8c/98/99/8c98994518b575bfd8c949e91d20548b.jpg')",
       }),
     },
   },
