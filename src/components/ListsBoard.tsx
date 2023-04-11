@@ -23,7 +23,7 @@ const ListsBoard: React.FC<BoardTypes["Iprops"]> = ({ lists, setLists }) => {
   };
 
   // function for switching editMode
-  const switchEditMode = (id: string): void => {
+  const handleSwitchEditMode = (id: string): void => {
     const updatedList = lists.map(list => {
       if (list.id === id) {
         list.editMode = !list.editMode;
@@ -33,12 +33,23 @@ const ListsBoard: React.FC<BoardTypes["Iprops"]> = ({ lists, setLists }) => {
     setLists(updatedList);
   };
 
+  // function for deleting a List Board
+  const handleDeleteList = (id: string): void => {
+    const listToDelete = lists.find(list => list.id === id);
+
+    if (window.confirm(`Delete ${listToDelete?.title}?`)) {
+      const updatedList = lists.filter(list => list.id !== id);
+      setLists(updatedList);
+    }
+  };
+
   const listsMap = lists.map(list => (
     <SingleList
       key={list.id}
       singleList={list}
       saveListTitle={handleSaveListTitle}
-      switchEditMode={switchEditMode}
+      switchEditMode={handleSwitchEditMode}
+      deleteList={handleDeleteList}
     />
   ));
 

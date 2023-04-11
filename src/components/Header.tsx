@@ -14,7 +14,7 @@ const Header: React.FC<HeaderTypes["IProps"]> = ({ addNewList }) => {
         onClick={addNewList}
         className="bg-myBlue py-2 px-9 -mb-10 rounded-full text-white border-2 border-white drop-shadow-md transition-all hover:drop-shadow-lg"
       >
-        Add New Board
+        Add New List Board
       </button>
     </div>
   );
