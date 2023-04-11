@@ -15,8 +15,10 @@ export interface AppTypes {
   };
 
   todo: {
+    id: string;
     title: string;
     description: string;
+    editMode: boolean;
   };
 }
 

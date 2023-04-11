@@ -8,18 +8,22 @@ interface SingleListTypes {
   IProps: {
     singleList: AppTypes["singleList"];
     saveListTitle: (title: string, id: string) => void;
-    switchEditMode: (id: string) => void;
+    listSwitchEditMode: (id: string) => void;
     deleteList: (id: string) => void;
     addTodo: (id: string) => void;
+    todoSwitchEditMode: (id: string) => void;
+    saveTodo: (id: string, title?: string, description?: string) => void;
   };
 }
 
 const SingleList: React.FC<SingleListTypes["IProps"]> = ({
   singleList,
   saveListTitle,
-  switchEditMode,
+  listSwitchEditMode,
   deleteList,
   addTodo,
+  todoSwitchEditMode,
+  saveTodo,
 }) => {
   const { id, editMode, todos } = singleList;
   const [title, setTitle] = useState<string>(singleList.title);
@@ -53,14 +57,18 @@ const SingleList: React.FC<SingleListTypes["IProps"]> = ({
           <div>
             <Icon
               onClick={() =>
-                editMode ? saveListTitleFunc() : switchEditMode(id)
+                editMode ? saveListTitleFunc() : listSwitchEditMode(id)
               }
               Icon={editMode ? MdSaveAs : MdEdit}
             />
             <Icon onClick={() => deleteList(id)} Icon={MdDelete} />
           </div>
         </div>
-        <TodoList todos={todos} />
+        <TodoList
+          todoSwitchEditMode={todoSwitchEditMode}
+          saveTodo={saveTodo}
+          todos={todos}
+        />
       </div>
 
       {/* add todo button */}
