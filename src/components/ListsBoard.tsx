@@ -15,6 +15,18 @@ const ListsBoard: React.FC<BoardTypes["Iprops"]> = ({ lists, setLists }) => {
     const updatedList = lists.map(list => {
       if (list.id === id) {
         list.title = title;
+        list.editMode = false;
+      }
+      return list;
+    });
+    setLists(updatedList);
+  };
+
+  // function for switching editMode
+  const switchEditMode = (id: string): void => {
+    const updatedList = lists.map(list => {
+      if (list.id === id) {
+        list.editMode = !list.editMode;
       }
       return list;
     });
@@ -23,9 +35,10 @@ const ListsBoard: React.FC<BoardTypes["Iprops"]> = ({ lists, setLists }) => {
 
   const listsMap = lists.map(list => (
     <SingleList
-      saveListTitle={handleSaveListTitle}
       key={list.id}
       singleList={list}
+      saveListTitle={handleSaveListTitle}
+      switchEditMode={switchEditMode}
     />
   ));
 

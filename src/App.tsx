@@ -11,6 +11,7 @@ export interface AppTypes {
     id: string;
     title: string;
     todos: AppTypes["todo"][];
+    editMode: boolean;
   };
 
   todo: {
@@ -23,19 +24,27 @@ const App: React.FC = () => {
   const defaultList = {
     id: uuid(),
     title: "Sample List Board Title",
-    todos: [],
+    todos: [
+      { title: "First thing", description: "Some description here" },
+      { title: "Second thing", description: "Some description here" },
+    ],
+    editMode: true,
   };
   const [lists, setLists] = useState<AppTypes["list"]>([defaultList]);
 
   const handleAddNewList = (): void => {
-    setLists([...lists, { ...defaultList, id: uuid() }]);
+    const oldList = [...lists].map(list => {
+      list.editMode = false;
+      return list;
+    });
+
+    setLists([...oldList, { ...defaultList, id: uuid() }]);
   };
 
   return (
     <Layout>
       <Header addNewList={handleAddNewList} />
       <ListsBoard lists={lists} setLists={setLists} />
-      <button className="gone" onClick={() => alert("good")}></button>
     </Layout>
   );
 };
