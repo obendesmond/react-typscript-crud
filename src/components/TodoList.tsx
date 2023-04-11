@@ -13,7 +13,7 @@ const TodoList: React.FC<TodoListTypes["IProps"]> = ({ todos }) => {
     <SingleTodo key={todo.title + i} todo={todo} />
   ));
 
-  return <div className="p-3">{TodoMap}</div>;
+  return <div className="p-3 pb-5">{TodoMap}</div>;
 };
 
 export default TodoList;

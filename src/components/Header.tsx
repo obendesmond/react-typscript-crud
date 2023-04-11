@@ -8,7 +8,7 @@ interface HeaderTypes {
 
 const Header: React.FC<HeaderTypes["IProps"]> = ({ addNewList }) => {
   return (
-    <div className="sticky z-10 top-0 drop-shadow-md flex flex-col items-center overflow-visible justify-end bg-gradient-to-r from-myBlue to-myPink bg-opacity-10 h-32 p-5 text-white">
+    <div className="sticky z-10 top-0 drop-shadow-md flex flex-col items-center overflow-visible justify-end bg-gradient-to-r from-myBlue to-myPink h-32 p-5 text-white">
       <h1 className="mb-10 text-3xl">Add And Manage Lists</h1>
       <button
         onClick={addNewList}

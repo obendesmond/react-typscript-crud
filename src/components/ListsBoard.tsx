@@ -43,6 +43,23 @@ const ListsBoard: React.FC<BoardTypes["Iprops"]> = ({ lists, setLists }) => {
     }
   };
 
+  // function for adding default todo to a list card
+  const handleAddTodo = (id: string): void => {
+    const defaultTodo: AppTypes["todo"] = {
+      title: "Sample todo",
+      description: "sample description",
+    };
+
+    const updatedList = lists.map(list => {
+      if (list.id === id) {
+        list.todos.push(defaultTodo);
+      }
+      return list;
+    });
+
+    setLists(updatedList);
+  };
+
   const listsMap = lists.map(list => (
     <SingleList
       key={list.id}
@@ -50,6 +67,7 @@ const ListsBoard: React.FC<BoardTypes["Iprops"]> = ({ lists, setLists }) => {
       saveListTitle={handleSaveListTitle}
       switchEditMode={handleSwitchEditMode}
       deleteList={handleDeleteList}
+      addTodo={handleAddTodo}
     />
   ));
 
