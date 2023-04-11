@@ -33,7 +33,7 @@ const SingleList: React.FC<SingleListTypes["IProps"]> = ({
   };
 
   return (
-    <div className="relative">
+    <div className="relative group">
       <div className="w-full md:w-[400px] drop-shadow-md rounded-md overflow-hidden min-h-[150px] bg-[#d3f0f9]">
         <div className="flex items-center justify-center gap-10 bg-gradient-to-tr from-myBlue to-myPink bg-opacity-70 p-3 text-white text-center">
           {/* bg-gradient-to-tr from-myBlue to-myPink | bg-blue-900 bg-opacity-70 */}
@@ -67,7 +67,7 @@ const SingleList: React.FC<SingleListTypes["IProps"]> = ({
       <Icon
         onClick={() => addTodo(id)}
         Icon={MdAdd}
-        className="absolute -mt-6 -ml-4 p-2 bg-myBlue text-white border-2 border-white drop-shadow-lg hover:bg-myPink bg-opacity-100"
+        className="hidden group-hover:inline-block  absolute -mt-6 -ml-4 p-2 bg-myBlue text-white border-2 border-white drop-shadow-lg hover:bg-myPink bg-opacity-100"
         reduceOpacityOnHover={false}
       />
     </div>
