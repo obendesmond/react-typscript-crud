@@ -7,6 +7,7 @@ interface TodoListTypes {
     todos: AppTypes["todo"][];
     todoSwitchEditMode: (id: string) => void;
     saveTodo: (id: string, title?: string, description?: string) => void;
+    deleteTodo: (id: string) => void;
   };
 }
 
@@ -14,6 +15,7 @@ const TodoList: React.FC<TodoListTypes["IProps"]> = ({
   todos,
   todoSwitchEditMode,
   saveTodo,
+  deleteTodo,
 }) => {
   const TodoMap = todos.map((todo, i) => (
     <SingleTodo
@@ -21,6 +23,7 @@ const TodoList: React.FC<TodoListTypes["IProps"]> = ({
       todo={todo}
       todoSwitchEditMode={todoSwitchEditMode}
       saveTodo={saveTodo}
+      deleteTodo={deleteTodo}
     />
   ));
 

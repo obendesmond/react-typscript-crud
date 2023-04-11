@@ -64,6 +64,7 @@ const ListsBoard: React.FC<BoardTypes["Iprops"]> = ({ lists, setLists }) => {
         newTodos.push(defaultTodo); // add new todo
         list.todos = newTodos;
       }
+
       return list;
     });
 
@@ -71,7 +72,7 @@ const ListsBoard: React.FC<BoardTypes["Iprops"]> = ({ lists, setLists }) => {
   };
 
   // function for switching todo to edit mode
-  function handleTodoSwitchEditMode(id: string) {
+  const handleTodoSwitchEditMode = (id: string): void => {
     const updatedList = lists.map(list => {
       const updatedTodos = list.todos.map(todo => {
         if (todo.id === id) {
@@ -84,7 +85,7 @@ const ListsBoard: React.FC<BoardTypes["Iprops"]> = ({ lists, setLists }) => {
       return list;
     });
     setLists(updatedList);
-  }
+  };
 
   // function for editing a specific todo in a list card
   const handleSaveTodo = (
@@ -108,6 +109,18 @@ const ListsBoard: React.FC<BoardTypes["Iprops"]> = ({ lists, setLists }) => {
     setLists(updatedList);
   };
 
+  // function for delete todo in a todoList
+  const handleDeleteTodo = (id: string): void => {
+    const updatedList = lists.map(list => {
+      const updatedTodos = list.todos.filter(todo => todo.id !== id);
+
+      list.todos = updatedTodos;
+
+      return list;
+    });
+    setLists(updatedList);
+  };
+
   const listsMap = lists.map(list => (
     <SingleList
       key={list.id}
@@ -118,6 +131,7 @@ const ListsBoard: React.FC<BoardTypes["Iprops"]> = ({ lists, setLists }) => {
       addTodo={handleAddTodo}
       todoSwitchEditMode={handleTodoSwitchEditMode}
       saveTodo={handleSaveTodo}
+      deleteTodo={handleDeleteTodo}
     />
   ));
 

@@ -8,6 +8,7 @@ interface TodoTypes {
     todo: AppTypes["todo"];
     todoSwitchEditMode: (id: string) => void;
     saveTodo: (id: string, title?: string, description?: string) => void;
+    deleteTodo: (id: string) => void;
   };
 }
 
@@ -15,6 +16,7 @@ const SingleTodo: React.FC<TodoTypes["IProps"]> = ({
   todo,
   todoSwitchEditMode,
   saveTodo,
+  deleteTodo,
 }) => {
   const { id, title, description, editMode } = todo;
   const [showDescription, setShowDescription] = useState<boolean>(editMode);
@@ -60,7 +62,7 @@ const SingleTodo: React.FC<TodoTypes["IProps"]> = ({
                 Icon={editMode ? MdSaveAs : MdEdit}
                 size={16}
               />
-              <Icon Icon={MdDelete} size={16} />
+              <Icon onClick={() => deleteTodo(id)} Icon={MdDelete} size={16} />
             </div>
           </div>
         </div>
