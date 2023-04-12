@@ -1,6 +1,7 @@
 import React from "react";
 import { AppTypes } from "../App";
 import SingleList from "./SingleList";
+import uuid from "react-uuid";
 
 interface BoardTypes {
   Iprops: {
@@ -50,7 +51,7 @@ const ListsBoard: React.FC<BoardTypes["Iprops"]> = ({ lists, setLists }) => {
     const updatedList = lists.map(list => {
       if (list.id === id) {
         const defaultTodo: AppTypes["todo"] = {
-          id: id + list.todos.length + 1,
+          id: uuid(),
           title: "Sample todo",
           description: "sample description",
           editMode: true,
