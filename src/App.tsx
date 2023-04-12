@@ -19,6 +19,7 @@ export interface AppTypes {
     title: string;
     description: string;
     editMode: boolean;
+    collapsed: boolean;
   };
 }
 

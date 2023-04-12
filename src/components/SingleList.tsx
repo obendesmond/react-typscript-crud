@@ -1,7 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AppTypes } from "../App";
 import TodoList from "./TodoList";
-import { MdEdit, MdSaveAs, MdDelete, MdAdd } from "react-icons/md";
+import {
+  MdEdit,
+  MdSaveAs,
+  MdDelete,
+  MdAdd,
+  MdKeyboardArrowDown,
+  MdKeyboardArrowUp,
+} from "react-icons/md";
 import Icon from "./Icon";
 
 interface SingleListTypes {
@@ -14,6 +21,8 @@ interface SingleListTypes {
     todoSwitchEditMode: (id: string) => void;
     saveTodo: (id: string, title?: string, description?: string) => void;
     deleteTodo: (id: string) => void;
+    collapseAllTodo: (id: string, value?: boolean) => void;
+    collapseTodo: (id: string) => void;
   };
 }
 
@@ -26,9 +35,23 @@ const SingleList: React.FC<SingleListTypes["IProps"]> = ({
   todoSwitchEditMode,
   saveTodo,
   deleteTodo,
+  collapseAllTodo,
+  collapseTodo,
 }) => {
   const { id, editMode, todos } = singleList;
   const [title, setTitle] = useState<string>(singleList.title);
+  const [allCollapsed, setAllCollapsed] = useState(false);
+
+  useEffect(() => {
+    const checkAllTodoCollapsed = () => {
+      for (let i = 0; i < todos.length; i++) {
+        const todo = todos[i];
+        if (!todo.collapsed) return setAllCollapsed(false);
+      }
+      return setAllCollapsed(true);
+    };
+    checkAllTodoCollapsed();
+  }, [todos]);
 
   const saveListTitleFunc = () => {
     saveListTitle(title, singleList.id);
@@ -36,6 +59,16 @@ const SingleList: React.FC<SingleListTypes["IProps"]> = ({
 
   const checkEnterKey = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "Enter") saveListTitleFunc();
+  };
+
+  const handleCollapseClick = () => {
+    console.log(allCollapsed);
+    if (allCollapsed) {
+      // if they're all collapsed then un collapse them
+      return collapseAllTodo(id, false);
+    }
+
+    return collapseAllTodo(id);
   };
 
   return (
@@ -64,6 +97,11 @@ const SingleList: React.FC<SingleListTypes["IProps"]> = ({
               Icon={editMode ? MdSaveAs : MdEdit}
             />
             <Icon onClick={() => deleteList(id)} Icon={MdDelete} />
+            <Icon
+              onClick={() => handleCollapseClick()}
+              Icon={MdKeyboardArrowDown}
+              className={`${allCollapsed ? "rotate-180" : "rotate-0"}`}
+            />
           </div>
         </div>
         <TodoList
@@ -71,6 +109,7 @@ const SingleList: React.FC<SingleListTypes["IProps"]> = ({
           saveTodo={saveTodo}
           todos={todos}
           deleteTodo={deleteTodo}
+          collapseTodo={collapseTodo}
         />
       </div>
 

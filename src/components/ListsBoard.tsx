@@ -11,7 +11,7 @@ interface BoardTypes {
 }
 
 const ListsBoard: React.FC<BoardTypes["Iprops"]> = ({ lists, setLists }) => {
-  // function for saving title of a list card
+  // function for saving title of a list card (id: list id)
   const handleSaveListTitle = (title: string, id: string): void => {
     const updatedList = lists.map(list => {
       if (list.id === id) {
@@ -23,7 +23,7 @@ const ListsBoard: React.FC<BoardTypes["Iprops"]> = ({ lists, setLists }) => {
     setLists(updatedList);
   };
 
-  // function for switching list to editMode
+  // function for switching list to editMode (id: list id)
   const handleListSwitchEditMode = (id: string, value?: boolean): void => {
     const updatedList = lists.map(list => {
       if (list.id === id) {
@@ -34,7 +34,7 @@ const ListsBoard: React.FC<BoardTypes["Iprops"]> = ({ lists, setLists }) => {
     setLists(updatedList);
   };
 
-  // function for deleting a List Board
+  // function for deleting a List Board (id: list id)
   const handleDeleteList = (id: string): void => {
     const listToDelete = lists.find(list => list.id === id);
 
@@ -44,7 +44,7 @@ const ListsBoard: React.FC<BoardTypes["Iprops"]> = ({ lists, setLists }) => {
     }
   };
 
-  // function for adding default todo to a list card
+  // function for adding default todo to a list card (id: list id)
   const handleAddTodo = (id: string): void => {
     handleListSwitchEditMode(id, false); // switch off edit mode for list card
 
@@ -55,6 +55,7 @@ const ListsBoard: React.FC<BoardTypes["Iprops"]> = ({ lists, setLists }) => {
           title: "Sample todo",
           description: "sample description",
           editMode: true,
+          collapsed: false,
         };
 
         let newTodos = list.todos.map(todo => {
@@ -72,7 +73,7 @@ const ListsBoard: React.FC<BoardTypes["Iprops"]> = ({ lists, setLists }) => {
     setLists(updatedList);
   };
 
-  // function for switching todo to edit mode
+  // function for switching todo to edit mode (id: todo id)
   const handleTodoSwitchEditMode = (id: string): void => {
     const updatedList = lists.map(list => {
       const updatedTodos = list.todos.map(todo => {
@@ -88,7 +89,7 @@ const ListsBoard: React.FC<BoardTypes["Iprops"]> = ({ lists, setLists }) => {
     setLists(updatedList);
   };
 
-  // function for editing a specific todo in a list card
+  // function for editing a specific todo in a list card (id: todo id)
   const handleSaveTodo = (
     id: string,
     title?: string,
@@ -110,13 +111,45 @@ const ListsBoard: React.FC<BoardTypes["Iprops"]> = ({ lists, setLists }) => {
     setLists(updatedList);
   };
 
-  // function for delete todo in a todoList
+  // function for delete todo in a todoList (id: todo id)
   const handleDeleteTodo = (id: string): void => {
     const updatedList = lists.map(list => {
       const updatedTodos = list.todos.filter(todo => todo.id !== id);
 
       list.todos = updatedTodos;
 
+      return list;
+    });
+    setLists(updatedList);
+  };
+
+  // function for collpasing all todos (id: list id)
+  const handleCollapseAllTodo = (id: string, value?: boolean): void => {
+    const updatedList = lists.map(list => {
+      if (list.id === id) {
+        const updatedTodos = list.todos.map(todo => {
+          todo.collapsed = value !== undefined ? value : true;
+          return todo;
+        });
+        list.todos = updatedTodos;
+      }
+
+      return list;
+    });
+    setLists(updatedList);
+  };
+
+  //function for collapsing specific todo (id: todo id)
+  const handleCollapseTodo = (id: string): void => {
+    const updatedList = lists.map(list => {
+      const updatedTodos = list.todos.map(todo => {
+        if (todo.id === id) {
+          todo.collapsed = !todo.collapsed;
+        }
+        return todo;
+      });
+
+      list.todos = updatedTodos;
       return list;
     });
     setLists(updatedList);
@@ -133,6 +166,8 @@ const ListsBoard: React.FC<BoardTypes["Iprops"]> = ({ lists, setLists }) => {
       todoSwitchEditMode={handleTodoSwitchEditMode}
       saveTodo={handleSaveTodo}
       deleteTodo={handleDeleteTodo}
+      collapseAllTodo={handleCollapseAllTodo}
+      collapseTodo={handleCollapseTodo}
     />
   ));
 

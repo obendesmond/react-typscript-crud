@@ -9,6 +9,7 @@ interface TodoTypes {
     todoSwitchEditMode: (id: string) => void;
     saveTodo: (id: string, title?: string, description?: string) => void;
     deleteTodo: (id: string) => void;
+    collapseTodo: (id: string) => void;
   };
 }
 
@@ -17,9 +18,9 @@ const SingleTodo: React.FC<TodoTypes["IProps"]> = ({
   todoSwitchEditMode,
   saveTodo,
   deleteTodo,
+  collapseTodo,
 }) => {
-  const { id, title, description, editMode } = todo;
-  const [showDescription, setShowDescription] = useState<boolean>(editMode);
+  const { id, title, description, editMode, collapsed } = todo;
   const [homeTitle, setHomeTitle] = useState<string>(title);
   const [homeDescription, setHomeDescription] = useState<string>(description);
 
@@ -37,9 +38,9 @@ const SingleTodo: React.FC<TodoTypes["IProps"]> = ({
           placeholder="Todo title"
         />
       ) : (
-        <p onClick={() => setShowDescription(!showDescription)}> {title}</p>
+        <p onClick={() => collapseTodo(id)}> {title}</p>
       )}
-      {showDescription && (
+      {!collapsed && (
         <div>
           <hr />
           <div>
