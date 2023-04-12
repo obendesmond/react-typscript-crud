@@ -129,6 +129,7 @@ const ListsBoard: React.FC<BoardTypes["Iprops"]> = ({ lists, setLists }) => {
       if (list.id === id) {
         const updatedTodos = list.todos.map(todo => {
           todo.collapsed = value !== undefined ? value : true;
+          todo.editMode = false;
           return todo;
         });
         list.todos = updatedTodos;
