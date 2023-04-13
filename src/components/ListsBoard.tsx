@@ -60,6 +60,7 @@ const ListsBoard: React.FC<BoardTypes["Iprops"]> = ({ lists, setLists }) => {
 
         let newTodos = list.todos.map(todo => {
           todo.editMode = false; // switch off edit mode for other todos
+          todo.collapsed = true; // collapse other todos
           return todo;
         });
 
