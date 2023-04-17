@@ -1,31 +1,27 @@
-import React, { useState } from "react";
-import { AppTypes } from "../App";
+import React, { useContext, useState } from "react";
 import Icon from "./Icon";
 import { MdEdit, MdSaveAs, MdDelete } from "react-icons/md";
+import ListContext, { AppTypes } from "../ContextApi/ListContextProvider";
 
 interface TodoTypes {
   IProps: {
     todo: AppTypes["todo"];
-    todoSwitchEditMode: (id: string) => void;
-    saveTodo: (id: string, title?: string, description?: string) => void;
-    deleteTodo: (id: string) => void;
-    collapseTodo: (id: string) => void;
   };
 }
 
-const SingleTodo: React.FC<TodoTypes["IProps"]> = ({
-  todo,
-  todoSwitchEditMode,
-  saveTodo,
-  deleteTodo,
-  collapseTodo,
-}) => {
+const SingleTodo: React.FC<TodoTypes["IProps"]> = ({ todo }) => {
+  const {
+    handleTodoSwitchEditMode,
+    handleSaveTodo,
+    handleDeleteTodo,
+    handleCollapseTodo,
+  } = useContext(ListContext);
   const { id, title, description, editMode, collapsed } = todo;
   const [homeTitle, setHomeTitle] = useState<string>(title);
   const [homeDescription, setHomeDescription] = useState<string>(description);
 
-  const handleSaveTodo = (): void => {
-    saveTodo(id, homeTitle, homeDescription);
+  const saveTodo = (): void => {
+    handleSaveTodo(id, homeTitle, homeDescription);
   };
 
   return (
@@ -38,7 +34,7 @@ const SingleTodo: React.FC<TodoTypes["IProps"]> = ({
           placeholder="Todo title"
         />
       ) : (
-        <p onClick={() => collapseTodo(id)}> {title}</p>
+        <p onClick={() => handleCollapseTodo(id)}> {title}</p>
       )}
       {!collapsed && (
         <div>
@@ -58,12 +54,16 @@ const SingleTodo: React.FC<TodoTypes["IProps"]> = ({
             <div className="flex justify-end">
               <Icon
                 onClick={() =>
-                  editMode ? handleSaveTodo() : todoSwitchEditMode(id)
+                  editMode ? saveTodo() : handleTodoSwitchEditMode(id)
                 }
                 Icon={editMode ? MdSaveAs : MdEdit}
                 size={16}
               />
-              <Icon onClick={() => deleteTodo(id)} Icon={MdDelete} size={16} />
+              <Icon
+                onClick={() => handleDeleteTodo(id)}
+                Icon={MdDelete}
+                size={16}
+              />
             </div>
           </div>
         </div>

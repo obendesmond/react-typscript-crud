@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { AppTypes } from "../App";
+import React, { useContext, useEffect, useState } from "react";
 import TodoList from "./TodoList";
 import {
   MdEdit,
@@ -7,37 +6,25 @@ import {
   MdDelete,
   MdAdd,
   MdKeyboardArrowDown,
-  MdKeyboardArrowUp,
 } from "react-icons/md";
 import Icon from "./Icon";
+import ListContext, { AppTypes } from "../ContextApi/ListContextProvider";
 
 interface SingleListTypes {
   IProps: {
     singleList: AppTypes["singleList"];
-    saveListTitle: (title: string, id: string) => void;
-    listSwitchEditMode: (id: string) => void;
-    deleteList: (id: string) => void;
-    addTodo: (id: string) => void;
-    todoSwitchEditMode: (id: string) => void;
-    saveTodo: (id: string, title?: string, description?: string) => void;
-    deleteTodo: (id: string) => void;
-    collapseAllTodo: (id: string, value?: boolean) => void;
-    collapseTodo: (id: string) => void;
   };
 }
 
-const SingleList: React.FC<SingleListTypes["IProps"]> = ({
-  singleList,
-  saveListTitle,
-  listSwitchEditMode,
-  deleteList,
-  addTodo,
-  todoSwitchEditMode,
-  saveTodo,
-  deleteTodo,
-  collapseAllTodo,
-  collapseTodo,
-}) => {
+const SingleList: React.FC<SingleListTypes["IProps"]> = ({ singleList }) => {
+  const {
+    handleSaveListTitle,
+    handleListSwitchEditMode,
+    handleDeleteList,
+    handleAddTodo,
+    handleCollapseAllTodo,
+  } = useContext(ListContext);
+
   const { id, editMode, todos } = singleList;
   const [title, setTitle] = useState<string>(singleList.title);
   const [allCollapsed, setAllCollapsed] = useState(false);
@@ -54,7 +41,7 @@ const SingleList: React.FC<SingleListTypes["IProps"]> = ({
   }, [todos]);
 
   const saveListTitleFunc = () => {
-    saveListTitle(title, singleList.id);
+    handleSaveListTitle(title, singleList.id);
   };
 
   const checkEnterKey = (e: React.KeyboardEvent<HTMLInputElement>): void => {
@@ -62,13 +49,12 @@ const SingleList: React.FC<SingleListTypes["IProps"]> = ({
   };
 
   const handleCollapseClick = () => {
-    console.log(allCollapsed);
     if (allCollapsed) {
       // if they're all collapsed then un collapse them
-      return collapseAllTodo(id, false);
+      return handleCollapseAllTodo(id, false);
     }
 
-    return collapseAllTodo(id);
+    return handleCollapseAllTodo(id);
   };
 
   return (
@@ -92,11 +78,11 @@ const SingleList: React.FC<SingleListTypes["IProps"]> = ({
           <div>
             <Icon
               onClick={() =>
-                editMode ? saveListTitleFunc() : listSwitchEditMode(id)
+                editMode ? saveListTitleFunc() : handleListSwitchEditMode(id)
               }
               Icon={editMode ? MdSaveAs : MdEdit}
             />
-            <Icon onClick={() => deleteList(id)} Icon={MdDelete} />
+            <Icon onClick={() => handleDeleteList(id)} Icon={MdDelete} />
             <Icon
               onClick={() => handleCollapseClick()}
               Icon={MdKeyboardArrowDown}
@@ -104,18 +90,12 @@ const SingleList: React.FC<SingleListTypes["IProps"]> = ({
             />
           </div>
         </div>
-        <TodoList
-          todoSwitchEditMode={todoSwitchEditMode}
-          saveTodo={saveTodo}
-          todos={todos}
-          deleteTodo={deleteTodo}
-          collapseTodo={collapseTodo}
-        />
+        <TodoList todos={todos} />
       </div>
 
       {/* add todo button */}
       <Icon
-        onClick={() => addTodo(id)}
+        onClick={() => handleAddTodo(id)}
         Icon={MdAdd}
         className="absolute -mt-6 -ml-4 p-2 bg-myBlue text-white border-2 border-white drop-shadow-lg hover:bg-myPink bg-opacity-100"
         reduceOpacityOnHover={false}
