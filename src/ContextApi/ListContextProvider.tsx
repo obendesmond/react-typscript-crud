@@ -15,6 +15,11 @@ export interface AppTypes {
     editMode: boolean;
     collapsed: boolean;
   };
+  alert: {
+    open: boolean;
+    content: string;
+    action: () => void;
+  };
 }
 
 interface IProps {
@@ -33,6 +38,8 @@ interface ListContextTypes {
   handleDeleteTodo: (id: string) => void;
   handleCollapseAllTodo: (id: string, value?: boolean) => void;
   handleCollapseTodo: (id: string) => void;
+  alert: AppTypes["alert"];
+  setAlert?: React.Dispatch<React.SetStateAction<ListContextTypes["alert"]>>;
 }
 
 const defaultState = {
@@ -54,13 +61,19 @@ const defaultState = {
   handleDeleteTodo: () => {},
   handleCollapseAllTodo: () => {},
   handleCollapseTodo: () => {},
+  alert: {
+    open: false,
+    content: "Sample alert text",
+    action: () => {},
+  },
 };
 
 const ListContext = createContext<ListContextTypes>(defaultState);
 
 const ListContextProvider: React.FC<IProps> = ({ children }) => {
-  const { list: defaultList } = defaultState;
+  const { list: defaultList, alert: defaultAlert } = defaultState;
   const [list, setList] = useState<ListContextTypes["list"]>(defaultList);
+  const [alert, setAlert] = useState<AppTypes["alert"]>(defaultAlert);
 
   //   function to add new list to board
   const handleAddNewList = (): void => {
@@ -105,11 +118,15 @@ const ListContextProvider: React.FC<IProps> = ({ children }) => {
   // function for deleting a List Board (id: list id)
   const handleDeleteList = (id: string): void => {
     const listToDelete = list.find(list => list.id === id);
-
-    if (window.confirm(`Delete ${listToDelete?.title}?`)) {
-      const updatedList = list.filter(list => list.id !== id);
-      setList(updatedList);
-    }
+    setAlert({
+      content: `Delete "${listToDelete?.title}?"`,
+      open: true,
+      action: function () {
+        const updatedList = list.filter(list => list.id !== id);
+        setAlert({ ...alert, open: false });
+        setList(updatedList);
+      },
+    });
   };
 
   // function for adding default todo to a list card (id: list id)
@@ -240,6 +257,8 @@ const ListContextProvider: React.FC<IProps> = ({ children }) => {
         handleDeleteTodo,
         handleCollapseAllTodo,
         handleCollapseTodo,
+        alert,
+        setAlert,
       }}
     >
       {children}
